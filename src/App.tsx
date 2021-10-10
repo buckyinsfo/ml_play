@@ -3,9 +3,9 @@ import Toggle from './components/Toggle'
 import Linear from './components/LinearRegression'
 import Gradient from './components/GradientDescent'
 
-import { ThemeProvider } from '@material-ui/core/styles'
+import { ThemeProvider } from '@mui/material/styles';
+import { CssBaseline } from '@mui/material'
 import ml_play_theme from './MuiTheme'
-import './App.css';
 
 interface IAppProps {
   appTitle: string,
@@ -21,16 +21,15 @@ const App: FC<IAppProps> = ({appTitle}): JSX.Element => {
 
   return (
     <ThemeProvider theme={ml_play_theme}>
+    <CssBaseline />
     <div className="App">
       <header className="App-header">
-        {/* <div>Linear Regression</div> */}
         <Toggle 
           isChecked={isGradient}
           handleToggle={handleToggle}
           labelOne="Linear Regression"
           labelTwo="Gradient Descent"
         />
-        {/* <div>Gradient Descent</div> */}
       </header>
       <React.Fragment>
         { isGradient

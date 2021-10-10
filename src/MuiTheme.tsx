@@ -1,4 +1,19 @@
-import { createTheme } from '@material-ui/core/styles';
+import { createTheme } from '@mui/material/styles';
+import { orange } from '@mui/material/colors';
+
+declare module '@mui/material/styles' {
+    interface Theme {
+      status: {
+        danger: string;
+      };
+    }
+    // allow configuration using `createTheme`
+    interface ThemeOptions {
+      status?: {
+        danger?: string;
+      };
+    }
+}
 
 const ml_play_theme = createTheme({
     palette: {
@@ -15,6 +30,10 @@ const ml_play_theme = createTheme({
         contrastText: '#000',
         },
     },
+    status: {
+        danger: orange[500],
+      },
+    
 })
 
 export default ml_play_theme

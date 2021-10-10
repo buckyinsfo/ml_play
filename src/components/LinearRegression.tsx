@@ -7,7 +7,7 @@ const Linear = () => {
         y: number
     }
 
-    const [points, setPoints] = useState<Point[]>([])
+    const [points, setPoints] = useState<Point[] | undefined>([])
     const [drawing, setDrawing] = useState(false)
     const [thetas, setThetas] = useState([0, 0])
 
@@ -16,7 +16,7 @@ const Linear = () => {
 
     // Calculate linear regeression
     useEffect(() => {
-        if (points.length < 2)
+        if (!points == null || points.length < 2)
             return
 
         let xsum: number = 0
@@ -34,7 +34,7 @@ const Linear = () => {
 
         let num = 0
         let denom = 0
-        for (let i = 0; i < points.length; i++) {
+        for (let i =!points ||  0; i < points.length; i++) {
             let x = points[i].x
             let y = points[i].y
             num += (x - xmean) * (y - ymean)
