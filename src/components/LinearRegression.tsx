@@ -2,21 +2,21 @@ import React, { useEffect, useRef, useState } from 'react'
 
 const Linear = () => {
 
-    interface Point {
+    interface IPoint {
         x: number
         y: number
     }
 
-    const [points, setPoints] = useState<Point[] | undefined>([])
-    const [drawing, setDrawing] = useState(false)
-    const [thetas, setThetas] = useState([0, 0])
+    const [points, setPoints] = useState<IPoint[]>([])
+    const [drawing, setDrawing] = useState<boolean>(false)
+    const [thetas, setThetas] = useState<[ number, number ]>([0, 0])
 
     const canvasRef = useRef<HTMLCanvasElement | null>(null)
-    const canvasCtxRef = React.useRef<CanvasRenderingContext2D | null>(null);
+    const [context, setContext] = React.useState<CanvasRenderingContext2D | null>(null)
 
     // Calculate linear regeression
     useEffect(() => {
-        if (!points == null || points.length < 2)
+        if ( points.length < 2 )
             return
 
         let xsum: number = 0
@@ -49,98 +49,120 @@ const Linear = () => {
 
     // Size and draw canvas and points
     useEffect(() => {
-        if (canvasRef.current) {
-            canvasCtxRef.current = canvasRef.current.getContext('2d')
-            let ctx = canvasCtxRef.current
-            let canvas = canvasRef.current
-        
-            canvas.width = window.innerWidth
-            canvas.height = window.innerHeight
-            canvas.style.width = `${window.innerWidth}px`
-            canvas.style.height = `${window.innerHeight}px`
+        if ( !points )
+            return
 
+        if ( !canvasRef.current )
+            return
+            
+        const renderCtx = canvasRef.current.getContext('2d');
+        if ( !renderCtx )
+            return
+                
+        setContext(renderCtx);
+
+        canvasRef.current.width = window.innerWidth
+        canvasRef.current.height = window.innerHeight
+        canvasRef.current.style.width = `${window.innerWidth}px`
+        canvasRef.current.style.height = `${window.innerHeight}px`
+
+        if (context) {
             // background rect draw
-            ctx!.fillStyle = '#333333'
-            ctx!.fillRect(0, 0, ctx!.canvas.width, ctx!.canvas.height)
-
+            context.fillStyle = '#333333'
+            context.fillRect(0, 0, context.canvas.width, context.canvas.height)
+        
             // draw points
-            ctx!.fillStyle = '#ffffff'
+            context.fillStyle = '#ffffff'
+
             for (var i = 0; i < points.length; i++) {
                 const x = points[i].x
-                const y = points[i].y
+                const y = points[i].y 
 
-                ctx!.beginPath()
-                const circle: Path2D | void = ctx!.arc(x, y, 8, 0, 2 * Math.PI)
-                if ( circle != null )
-                    ctx!.fill(circle)
-
-                setThetas([0, 0])
+                context.beginPath()
+                const circle = context.arc(x, y, 8, 0, 2 * Math.PI)
+                context.fill(circle!)
             }
         }
-
-    }, [points])
+    }, [context, points])
 
     // Draw line
-    // useEffect(() => {
-    //     // draw line if we have thetas
-    //     if (thetas.length < 1)
-    //         return
+    useEffect(() => {
+        // draw line if we have thetas
+        if ( thetas.length < 1 )
+            return
 
-    //     const canvas = canvasRef.current
-    //     const ctx = canvas.getContext('2d')
+        const canvas = canvasRef.current
+        if ( canvas == null )
+            return
 
-    //     // draw line
-    //     ctx.translate(0, ctx.canvas.height)
-    //     ctx.scale(1, -1)
+        if ( !context )
+            return 
 
-    //     const b = thetas[0]
-    //     const m = thetas[1]
+        // draw line
+        context.translate(0, context.canvas.height)
+        context.scale(1, -1)
+
+        const b = thetas[0]
+        const m = thetas[1]
         
-    //     const x0 = 0
-    //     const y0 = ctx.canvas.height - (m * x0 + b)
-    //     const x1 = ctx.canvas.width
-    //     const y1 = ctx.canvas.height - (m * x1 + b)
+        const x0 = 0
+        const y0 = context.canvas.height - (m * x0 + b)
+        const x1 = context.canvas.width
+        const y1 = context.canvas.height - (m * x1 + b)
 
-    //     ctx.strokeStyle = 'white'
-    //     ctx.lineWidth = 5
-    //     ctx.lineCap = "round"     
+        context.strokeStyle = 'white'
+        context.lineWidth = 5
+        context.lineCap = "round"     
         
-    //     ctx.beginPath()
-    //     ctx.moveTo(x0, y0)
-    //     ctx.lineTo(x1, y1)
-    //     ctx.stroke()
+        context.beginPath()
+        context.moveTo(x0, y0)
+        context.lineTo(x1, y1)
+        context.stroke()
 
-    //     ctx.scale(1, -1)
-    //     ctx.translate(0, -1 * ctx.canvas.height)
+        context.scale(1, -1)
+        context.translate(0, -1 * context.canvas.height)
 
-    // }, [thetas])
+    }, [context, thetas])
+
 
     const handleMouseDown = (event: React.MouseEvent<HTMLCanvasElement, MouseEvent>) => {
         const { button } = event
 
-        if (button === 0)
-            setDrawing(true)
+        if ( button !== 0 )
+            return
+
+        setDrawing(true)
     }
 
     const handleMouseUp = (event: React.MouseEvent<HTMLCanvasElement, MouseEvent>) => {
-        if (!drawing) return
-        if (!canvasRef.current) return
+        if ( !drawing ) 
+            return
 
-        const { clientX, clientY } = event
+        if ( !canvasRef.current )
+            return
 
+        // get mouse button & click point
+        const { button, clientX, clientY } = event
+        if ( button !== 0 )
+            return
+        
         const canvas = canvasRef.current
         const bRect = canvas.getBoundingClientRect()
         const scaleX = canvas.width / bRect.width    // relationship bitmap vs. element for X
         const scaleY = canvas.height / bRect.height  // relationship bitmap vs. element for Y
   
-        const point = [(clientX - bRect.left) * scaleX, (clientY - bRect.top) * scaleY]
-        //const point = [clientX, clientY]
-        //setPoints(prevState => [...prevState, point])
+        const point: IPoint = { x: (clientX - bRect.left) * scaleX, y: (clientY - bRect.top) * scaleY }
+        setPoints( (prevState: IPoint[]) => [...prevState, point] )
+
         setDrawing(false)
     }
 
     return <canvas id="canvas" 
         ref={canvasRef} 
+        style={{
+            border: '2px solid #000',
+            marginTop: 10,
+        }}
         onMouseDown={handleMouseDown}
         onMouseUp={handleMouseUp}
     />
