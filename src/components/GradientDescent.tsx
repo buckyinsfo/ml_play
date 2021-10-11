@@ -1,5 +1,5 @@
-import React, { MouseEventHandler, useCallback, useEffect, useRef, useState } from 'react'
-import useInterval from 'use-interval'
+// import React, { MouseEventHandler, useCallback, useEffect, useRef, useState } from 'react'
+// import useInterval from 'use-interval'
 
 // interface GradientDescentProps {
 //     alpha: number
@@ -7,21 +7,20 @@ import useInterval from 'use-interval'
 
 const Gradient = () => {
 
-    interface Point {
-        x: number
-        y: number
-    }
+    // interface Point {
+    //     x: number
+    //     y: number
+    // }
 
-    const [points, setPoints] = useState<Point[]>([])
-    // const [habitList, setHabitList] = useState<HabitType[]>([]);
-    const [drawing, setDrawing] = useState(false)
-    const [theta, setTheta] = useState([0, 0])
-    const [alpha, setAlpha] = useState(0.0001)
+    // const [points, setPoints] = useState<Point[]>([])
+    // // const [habitList, setHabitList] = useState<HabitType[]>([]);
+    // const [drawing, setDrawing] = useState(false)
+    // const [theta, setTheta] = useState([0, 0])
+    // // const [alpha, setAlpha] = useState(0.0001)
 
-    const canvasRef = useRef<HTMLCanvasElement | null>(null)
-    const canvasCtxRef = React.useRef<CanvasRenderingContext2D | null>(null);
+    // const canvasRef = useRef<HTMLCanvasElement | null>(null)
 
-    const hypothesis = (x: number) => theta[0] + theta[1] * x 
+    // const hypothesis = (x: number) => theta[0] + theta[1] * x 
     
     // const train = useCallback((alpha) => {
     // const train = (alpha: GradientDescentProps) => {
@@ -52,47 +51,47 @@ const Gradient = () => {
 
     // Train the model
     
-    useInterval(() => {
-        // Your custom logic here
-        if (points.length < 2)
-            return
+    // useInterval(() => {
+    //     // Your custom logic here
+    //     if (points.length < 2)
+    //         return
 
-        //train(alpha)
-        //setCount(count + 1);
-    }, 1000);
+    //     //train(alpha)
+    //     //setCount(count + 1);
+    // }, 1000);
 
     // Size and draw canvas and points
-    useEffect(() => {
-        if (canvasRef.current) {
-            canvasCtxRef.current = canvasRef.current.getContext('2d')
-            let ctx = canvasCtxRef.current
-            let canvas = canvasRef.current
+    // useEffect(() => {
+    //     if (canvasRef.current) {
+    //         canvasCtxRef.current = canvasRef.current.getContext('2d')
+    //         let ctx = canvasCtxRef.current
+    //         let canvas = canvasRef.current
         
-            canvas.width = window.innerWidth
-            canvas.height = window.innerHeight
-            canvas.style.width = `${window.innerWidth}px`
-            canvas.style.height = `${window.innerHeight}px`
+    //         canvas.width = window.innerWidth
+    //         canvas.height = window.innerHeight
+    //         canvas.style.width = `${window.innerWidth}px`
+    //         canvas.style.height = `${window.innerHeight}px`
 
-            // background rect draw
-            ctx!.fillStyle = '#333333'
-            ctx!.fillRect(0, 0, ctx!.canvas.width, ctx!.canvas.height)
+    //         // background rect draw
+    //         ctx!.fillStyle = '#333333'
+    //         ctx!.fillRect(0, 0, ctx!.canvas.width, ctx!.canvas.height)
 
-            // draw points
-            ctx!.fillStyle = '#ffffff'
-            for (var i = 0; i < points.length; i++) {
-                const x = points[i].x
-                const y = points[i].y
+    //         // draw points
+    //         ctx!.fillStyle = '#ffffff'
+    //         for (var i = 0; i < points.length; i++) {
+    //             const x = points[i].x
+    //             const y = points[i].y
 
-                ctx!.beginPath()
-                const circle: Path2D | void = ctx!.arc(x, y, 8, 0, 2 * Math.PI)
-                if ( circle != null )
-                    ctx!.fill(circle)
+    //             ctx!.beginPath()
+    //             const circle: Path2D | void = ctx!.arc(x, y, 8, 0, 2 * Math.PI)
+    //             if ( circle != null )
+    //                 ctx!.fill(circle)
 
-                setTheta([0, 0])
-            }
-        }
+    //             setTheta([0, 0])
+    //         }
+    //     }
 
-    }, [points])
+    // }, [points])
 
     // Draw line
     // useEffect(() => {
@@ -129,34 +128,35 @@ const Gradient = () => {
 
     // }, [points, theta])
 
-    const handleMouseDown = (event: React.MouseEvent<HTMLCanvasElement, MouseEvent>) => {
-        const { button } = event
+    // const handleMouseDown = (event: React.MouseEvent<HTMLCanvasElement, MouseEvent>) => {
+    //     const { button } = event
 
-        if (button === 0)
-            setDrawing(true)
-    }
+    //     if (button === 0)
+    //         setDrawing(true)
+    // }
 
-    const handleMouseUp = (event: React.MouseEvent<HTMLCanvasElement, MouseEvent>) => {
-        if (!drawing) return
-        if (!canvasRef.current) return
+    // const handleMouseUp = (event: React.MouseEvent<HTMLCanvasElement, MouseEvent>) => {
+    //     if (!drawing) return
+    //     if (!canvasRef.current) return
 
-        const { clientX, clientY } = event
+    //     const { clientX, clientY } = event
 
-        const canvas = canvasRef.current
-        const bRect = canvas.getBoundingClientRect()
-        const scaleX = canvas.width / bRect.width    // relationship bitmap vs. element for X
-        const scaleY = canvas.height / bRect.height  // relationship bitmap vs. element for Y
+    //     const canvas = canvasRef.current
+    //     const bRect = canvas.getBoundingClientRect()
+    //     const scaleX = canvas.width / bRect.width    // relationship bitmap vs. element for X
+    //     const scaleY = canvas.height / bRect.height  // relationship bitmap vs. element for Y
   
-        const point = [(clientX - bRect.left) * scaleX, (clientY - bRect.top) * scaleY]
-        //setPoints(prevState => [...prevState, point])
-        setDrawing(false)
-    }
+    //     const point = [(clientX - bRect.left) * scaleX, (clientY - bRect.top) * scaleY]
+    //     //setPoints(prevState => [...prevState, point])
+    //     setDrawing(false)
+    // }
 
-    return <canvas id="canvas" 
-        ref={canvasRef} 
-        onMouseDown={handleMouseDown}
-        onMouseUp={handleMouseUp}
-    />
+    // return <canvas id="canvas" 
+    //     ref={canvasRef} 
+    //     onMouseDown={handleMouseDown}
+    //     onMouseUp={handleMouseUp}
+    // />
+    return (<></>)
 }
 
 export default Gradient
