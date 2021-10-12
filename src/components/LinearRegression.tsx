@@ -122,13 +122,12 @@ const Linear = () => {
 
     }, [context, thetas])
 
-
     const handleMouseDown = (event: React.MouseEvent<HTMLCanvasElement, MouseEvent>) => {
         const { button } = event
 
         if ( button !== 0 )
             return
-
+        
         setDrawing(true)
     }
 
@@ -156,7 +155,7 @@ const Linear = () => {
     }
 
     return <canvas id="canvas" 
-        ref={canvasRef} 
+        ref={canvasRef}
         style={{
             border: '2px solid #000',
             marginTop: 10,
