@@ -87,7 +87,6 @@ const Linear = () => {
 
     // Draw line
     useEffect(() => {
-        // draw line if we have thetas
         if ( thetas.length < 1 )
             return
 
@@ -98,7 +97,6 @@ const Linear = () => {
         if ( !context )
             return 
 
-        // draw line
         context.translate(0, context.canvas.height)
         context.scale(1, -1)
 
