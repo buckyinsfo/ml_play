@@ -9,8 +9,7 @@ interface IToggleProps {
     labelTwo?: string
 }
 
-const Toggle: FC<IToggleProps> = (props): JSX.Element => {
-    console.info("value = ", props)
+ const Toggle: FC<IToggleProps> = (props): JSX.Element => {
     return (
         <React.Fragment>
             <Box
