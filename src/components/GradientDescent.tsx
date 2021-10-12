@@ -1,162 +1,175 @@
-// import React, { MouseEventHandler, useCallback, useEffect, useRef, useState } from 'react'
-// import useInterval from 'use-interval'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
+import useInterval from 'use-interval'
 
-// interface GradientDescentProps {
+// interface IGradDescProps {
 //     alpha: number
 // }
 
 const Gradient = () => {
 
-    // interface Point {
-    //     x: number
-    //     y: number
-    // }
+    interface IPoint {
+        x: number
+        y: number
+    }
 
-    // const [points, setPoints] = useState<Point[]>([])
-    // // const [habitList, setHabitList] = useState<HabitType[]>([]);
-    // const [drawing, setDrawing] = useState(false)
-    // const [theta, setTheta] = useState([0, 0])
-    // // const [alpha, setAlpha] = useState(0.0001)
+    const [points, setPoints] = useState<IPoint[]>([])
+    const [drawing, setDrawing] = useState<boolean>(false)
+    const [thetas, setThetas] = useState<[ number, number ]>([0, 0])
+    const [alpha, setAlpha] = useState< number>(0.0001)
 
-    // const canvasRef = useRef<HTMLCanvasElement | null>(null)
+    const canvasRef = useRef<HTMLCanvasElement | null>(null)
+    const [context, setContext] = useState<CanvasRenderingContext2D | null>(null)
 
-    // const hypothesis = (x: number) => theta[0] + theta[1] * x 
+    const hypothesis = useCallback( (x: number) => { return ( thetas[0] + thetas[1] * x )}, [thetas])
     
-    // const train = useCallback((alpha) => {
-    // const train = (alpha: GradientDescentProps) => {
-    //     const m: number = points.length        
+    const train = useCallback((alpha) => {
+        const m: number = points.length        
         
-    //     let thetaZero: number = theta[0]
-    //     let thetaOne: number = theta[1]
-    //     let thetaZeroSum: number = 0;
-    //     let thetaOneSum: number = 0;
+        let thetaZero: number = thetas[0]
+        let thetaOne: number = thetas[1]
+        let thetaZeroSum: number = 0;
+        let thetaOneSum: number = 0;
                 
-    //     for (let i = 0; i < m; i++) {
-    //         const x: number = points[i][0]
-    //         const y: number = points[i][1]
-    //         thetaZeroSum += hypothesis(x) - y;
-    //         thetaOneSum += (hypothesis(x) - y) * x;
-    //     }
+        for (let i = 0; i < m; i++) {
+            const x: number = points[i].x
+            const y: number = points[i].y
+            thetaZeroSum += hypothesis(x) - y
+            thetaOneSum += (hypothesis(x) - y) * x
+        }
        
-    //     // setThetaZero( thetaZero - (alpha / m) * thetaZeroSum )
-    //     // setThetaOne( thetaOne - (alpha / m) * thetaOneSum )
+        thetaZero = thetaZero - (alpha / m) * thetaZeroSum
+        thetaOne = thetaOne - (alpha / m) * thetaOneSum 
         
-    //     thetaZero = thetaZero - (alpha / m) * thetaZeroSum
-    //     thetaOne = thetaOne - (alpha / m) * thetaOneSum 
-        
-    //     setTheta([thetaZero, thetaOne])
-    //     console.log( theta )
+        setThetas([thetaZero, thetaOne])
+        console.log( thetas )
     
-    // } //,[points, hypothesis, theta])
+    } ,[points, hypothesis, thetas])
 
-    // Train the model
-    
-    // useInterval(() => {
-    //     // Your custom logic here
-    //     if (points.length < 2)
-    //         return
+    // Train the model with this timer
+    useInterval(() => {
+        if (points.length < 2)
+            return
 
-    //     //train(alpha)
-    //     //setCount(count + 1);
-    // }, 1000);
+        train(alpha)
+        //setCount(count + 1);
+     }, 1000);
 
     // Size and draw canvas and points
-    // useEffect(() => {
-    //     if (canvasRef.current) {
-    //         canvasCtxRef.current = canvasRef.current.getContext('2d')
-    //         let ctx = canvasCtxRef.current
-    //         let canvas = canvasRef.current
-        
-    //         canvas.width = window.innerWidth
-    //         canvas.height = window.innerHeight
-    //         canvas.style.width = `${window.innerWidth}px`
-    //         canvas.style.height = `${window.innerHeight}px`
+    useEffect(() => {
+        if ( !points )
+            return
 
-    //         // background rect draw
-    //         ctx!.fillStyle = '#333333'
-    //         ctx!.fillRect(0, 0, ctx!.canvas.width, ctx!.canvas.height)
+        if ( !canvasRef.current )
+            return
+            
+        const renderCtx = canvasRef.current.getContext('2d');
+        if ( !renderCtx )
+            return
+                
+        setContext(renderCtx);
 
-    //         // draw points
-    //         ctx!.fillStyle = '#ffffff'
-    //         for (var i = 0; i < points.length; i++) {
-    //             const x = points[i].x
-    //             const y = points[i].y
+        canvasRef.current.width = window.innerWidth
+        canvasRef.current.height = window.innerHeight
+        canvasRef.current.style.width = `${window.innerWidth}px`
+        canvasRef.current.style.height = `${window.innerHeight}px`
 
-    //             ctx!.beginPath()
-    //             const circle: Path2D | void = ctx!.arc(x, y, 8, 0, 2 * Math.PI)
-    //             if ( circle != null )
-    //                 ctx!.fill(circle)
+        if (context) {
+            // background rect draw
+            context.fillStyle = '#333333'
+            context.fillRect(0, 0, context.canvas.width, context.canvas.height)
 
-    //             setTheta([0, 0])
-    //         }
-    //     }
+            // draw points
+            context.fillStyle = '#ffffff'
 
-    // }, [points])
+            for (var i = 0; i < points.length; i++) {
+                const x = points[i].x
+                const y = points[i].y 
+
+                context.beginPath()
+                const circle = context.arc(x, y, 8, 0, 2 * Math.PI)
+                context.fill(circle!)
+            }
+        }
+    }, [context, points])
 
     // Draw line
-    // useEffect(() => {
-    //     // draw line if we have two points
-    //     if (points.length < 2)
-    //         return
+    useEffect(() => {
+        if ( thetas.length < 1 )
+            return
 
-    //     const canvas = canvasRef.current
-    //     const ctx = canvas.getContext('2d')
-    //     ctx.translate(0, ctx.canvas.height)
-    //     ctx.scale(1, -1)
+        const canvas = canvasRef.current
+        if ( canvas == null )
+            return
 
-    //     const b = theta[0]
-    //     const m = theta[1]
+        if ( !context )
+            return 
 
-    //     const x0 = 0
-    //     const y0 = ctx.canvas.height - (m * x0 + b)
-    //     const x1 = ctx.canvas.width
-    //     const y1 = ctx.canvas.height - (m * x1 + b)
+        context.translate(0, context.canvas.height)
+        context.scale(1, -1)
 
-    //     ctx.strokeStyle = 'white'
-    //     ctx.lineWidth = 5
-    //     ctx.lineCap = "round"
+        const b = thetas[0]
+        const m = thetas[1]
+        
+        const x0 = 0
+        const y0 = context.canvas.height - (m * x0 + b)
+        const x1 = context.canvas.width
+        const y1 = context.canvas.height - (m * x1 + b)
 
-    //     ctx.beginPath()
-    //     ctx.moveTo(x0, y0)
-    //     ctx.lineTo(x1, y1)
-    //     ctx.stroke()
+        context.strokeStyle = 'white'
+        context.lineWidth = 5
+        context.lineCap = "round"     
+        
+        context.beginPath()
+        context.moveTo(x0, y0)
+        context.lineTo(x1, y1)
+        context.stroke()
 
-    //     ctx.scale(1, -1)
-    //     ctx.translate(0, -1 * ctx.canvas.height)
+        context.scale(1, -1)
+        context.translate(0, -1 * context.canvas.height)
 
-    //     console.log( "Redrew line!")
+    }, [context, thetas])
 
-    // }, [points, theta])
+    const handleMouseDown = (event: React.MouseEvent<HTMLCanvasElement, MouseEvent>) => {
+        const { button } = event
 
-    // const handleMouseDown = (event: React.MouseEvent<HTMLCanvasElement, MouseEvent>) => {
-    //     const { button } = event
+        if ( button !== 0 )
+            return
+        
+        setDrawing(true)    
+    }
 
-    //     if (button === 0)
-    //         setDrawing(true)
-    // }
+    const handleMouseUp = (event: React.MouseEvent<HTMLCanvasElement, MouseEvent>) => {
+        if ( !drawing ) 
+            return
 
-    // const handleMouseUp = (event: React.MouseEvent<HTMLCanvasElement, MouseEvent>) => {
-    //     if (!drawing) return
-    //     if (!canvasRef.current) return
+        if ( !canvasRef.current )
+            return
 
-    //     const { clientX, clientY } = event
-
-    //     const canvas = canvasRef.current
-    //     const bRect = canvas.getBoundingClientRect()
-    //     const scaleX = canvas.width / bRect.width    // relationship bitmap vs. element for X
-    //     const scaleY = canvas.height / bRect.height  // relationship bitmap vs. element for Y
+        // get mouse button & click point
+        const { button, clientX, clientY } = event
+        if ( button !== 0 )
+            return
+        
+        const canvas = canvasRef.current
+        const bRect = canvas.getBoundingClientRect()
+        const scaleX = canvas.width / bRect.width    // relationship bitmap vs. element for X
+        const scaleY = canvas.height / bRect.height  // relationship bitmap vs. element for Y
   
-    //     const point = [(clientX - bRect.left) * scaleX, (clientY - bRect.top) * scaleY]
-    //     //setPoints(prevState => [...prevState, point])
-    //     setDrawing(false)
-    // }
+        const point: IPoint = { x: (clientX - bRect.left) * scaleX, y: (clientY - bRect.top) * scaleY }
+        setPoints( (prevState: IPoint[]) => [...prevState, point] )
 
-    // return <canvas id="canvas" 
-    //     ref={canvasRef} 
-    //     onMouseDown={handleMouseDown}
-    //     onMouseUp={handleMouseUp}
-    // />
-    return (<></>)
+        setDrawing(false)
+    }
+
+    return <canvas id="canvas" 
+        ref={canvasRef}
+        style={{
+            border: '2px solid #000',
+            marginTop: 10,
+        }}
+        onMouseDown={handleMouseDown}
+        onMouseUp={handleMouseUp}
+    />
 }
 
 export default Gradient
