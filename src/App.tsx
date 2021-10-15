@@ -1,4 +1,5 @@
 import React, { ChangeEvent, FC, useState } from 'react'
+import Container from '@mui/material/Container'
 import Toggle from './components/Toggle'
 import Linear from './components/LinearRegression'
 import Gradient from './components/GradientDescent'
@@ -16,7 +17,7 @@ const App: FC<IAppProps> = ({ appTitle }): JSX.Element => {
   }
 
   return (
-      <div className="App">
+      <Container className="App" maxWidth="sm">
         <header className="App-header">
           <Toggle
             isChecked={isGradient}
@@ -32,7 +33,7 @@ const App: FC<IAppProps> = ({ appTitle }): JSX.Element => {
           }
         </React.Fragment>
         <div className='version'>React version: {React.version}</div>
-      </div>
+      </Container>
   )
 }
 
