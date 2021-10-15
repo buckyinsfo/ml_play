@@ -1,12 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import { CssBaseline } from '@mui/material'
+import { ThemeProvider } from '@mui/material/styles'
+import ml_play_theme from './MuiTheme'
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App appTitle="ML Play" />
+    <ThemeProvider theme={ml_play_theme}>
+      <CssBaseline />
+      <App appTitle="ML Play" />
+    </ThemeProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
