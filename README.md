@@ -1,55 +1,46 @@
-# Machine Learning Playground
+# Getting Started with Create React App
 
-This project implements the concepts presented from the Stanford CS230 MOOC.  However, I have used other sources to clarify certian concepts.
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## This project uses React and NodeJS
+## Available Scripts
 
+In the project directory, you can run:
 
-# Concepts
+### `npm start`
 
-### Univariant Linear Regression with Gradient Descent
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The guess of a straight line through the data is defined as the  hypothesis.
+The page will reload if you make edits.\
+You will also see any lint errors in the console.
 
-h(x) => thetaZero + thetaOne * x
+### `npm test`
 
-or basically the definition of the slope of a line.
+Launches the test runner in the interactive watch mode.\
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-y = m * x + b
+### `npm run build`
 
-thetaZero == b which is the y intercept
-thetaOne == m which is the slope of the line
+Builds the app for production to the `build` folder.\
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-### Q: How do we know if the hypothesis/line is accurate?
-### A: The Cost Function in machine learning is used to determine how well the hypothesis performs for data set.
+The build is minified and the filenames include the hashes.\
+Your app is ready to be deployed!
 
-Where:
-m == number or rows in our data matrix
-    (not to be confused with m as the slope of the line)
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-The goal is to minimize the cost function of the line wrt our data set.
+### `npm run eject`
 
-The cost function:
-const cost = () => {
-  let sum = 0;
- 
-  for (let i = 0; i < m; i++) {
-    sum += Math.pow(hypothesis(x[i]) - y[i], 2);
-  }
- 
-  return sum / (2 * m);
-}
+**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
+If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-## Ordinary Leasts Squares Method
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
-     sum ( (x(i) - avg(x))(y(i) - avg(y) )
-m = ----------------------------------------
-     sum (x(i) - avg(x))^2
+You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-and
+## Learn More
 
-b = avg(y) - avg(x) * m
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-
-
+To learn React, check out the [React documentation](https://reactjs.org/).

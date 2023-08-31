@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import useInterval from 'use-interval'
+// import useInterval from 'use-interval'
 
 // interface IGradDescProps {
 //     alpha: number
@@ -22,7 +22,7 @@ const Gradient = () => {
 
     const hypothesis = useCallback( (x: number) => { return ( thetas[0] + thetas[1] * x )}, [thetas])
     
-    const train = useCallback((alpha) => {
+    const train = useCallback((alpha: number) => {
         const m: number = points.length        
         
         let thetaZero: number = thetas[0]
@@ -46,13 +46,13 @@ const Gradient = () => {
     } ,[points, hypothesis, thetas])
 
     // Train the model with this timer
-    useInterval(() => {
-        if (points.length < 2)
-            return
+    // useInterval(() => {
+    //     if (points.length < 2)
+    //         return
 
-        train(alpha)
-        //setCount(count + 1);
-     }, 1000);
+    //     train(alpha)
+    //     //setCount(count + 1);
+    //  }, 1000);
 
     // Size and draw canvas and points
     useEffect(() => {
