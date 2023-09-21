@@ -23,6 +23,7 @@ export const MuiTabs: React.FC<MuiTabsProps> = ({
           aria-label="tab for algorythm choice"
           textColor="secondary"
           indicatorColor="secondary"
+          centered
         >
           <Tab
             label={<Typography variant="h6">Linear Regression</Typography>}
