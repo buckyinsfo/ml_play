@@ -4,6 +4,7 @@ import { Container, useMediaQuery } from "@mui/material";
 import Ok2Delete from "./components/MuiAppBarResponsive";
 import Linear from "./components/LinearRegression";
 import Gradient from "./components/GradientDescent";
+import CanvasComponent from "./components/CanvasComponent";
 
 import "./App.css";
 
@@ -52,6 +53,7 @@ const App: FC<IAppProps> = ({ appTitle }): JSX.Element => {
         {/* Render content components based on the selected tab */}
         {selectedTab === "Linear Regression" ? <Linear /> : null}
         {selectedTab === "Gradient Decent" ? <Gradient /> : null}
+        {selectedTab === "Canvas Component" ? <CanvasComponent /> : null}
       </React.Fragment>
 
       <div className="version">React version: {React.version}</div>

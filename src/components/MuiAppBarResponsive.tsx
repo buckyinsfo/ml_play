@@ -18,7 +18,7 @@ interface Ok2DeleteProps {
   onTabChange: (newValue: string) => void;
 }
 
-const pages = ["Linear Regression", "Gradient Decent"];
+const pages = ["Linear Regression", "Gradient Decent", "Canvas Component"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 const Ok2Delete: React.FC<Ok2DeleteProps> = ({ selectedTab, onTabChange }) => {
@@ -37,8 +37,6 @@ const Ok2Delete: React.FC<Ok2DeleteProps> = ({ selectedTab, onTabChange }) => {
     setAnchorElNav(null);
 
     onTabChange(selectedPage);
-    // You can perform any specific action based on the selectedPage value
-    console.log(`Button '${selectedPage}' was clicked`);
   };
 
   const handleCloseUserMenu = () => {
