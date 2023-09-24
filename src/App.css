@@ -1,4 +1,36 @@
-.App {
+/* Reset some default styles */
+
+/* Remove default margin and padding on all elements */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Apply a baseline font size and remove text decoration */
+body {
+  font-size: 16px; /* Adjust as needed */
+  text-decoration: none;
+}
+
+/* Normalize some styles for better cross-browser consistency */
+html, body, div, h1, h2, h3, p {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+/* Optionally, you can include a CSS reset or normalize.css library here */
+
+
+* {
+  border: 1px dashed cyan;
+}
+
+/* .App {
   text-align: center;
 }
 
@@ -15,7 +47,7 @@
 
 .App-header {
   background-color: #282c34;
-  min-height: 100vh;
+  min-height: 50vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -35,4 +67,4 @@
   to {
     transform: rotate(360deg);
   }
-}
+} */
