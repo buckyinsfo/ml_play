@@ -15,6 +15,26 @@ const Linear = () => {
     null
   );
 
+  // Calculate Canvas Dimensions
+  useEffect(() => {
+    if (!canvasRef.current) return;
+
+    const parentContainer = canvasRef.current.parentElement;
+    if (!parentContainer) return;
+
+    // Calculate the desired canvas height as a fixed value
+    // const canvasHeight = 400; // Adjust this value as needed
+    const canvasHeight = parentContainer.clientHeight; // Adjust this value as needed
+
+    canvasRef.current.width = parentContainer.clientWidth;
+    canvasRef.current.height = canvasHeight;
+    canvasRef.current.style.width = "100%"; // Set width to 100% to match parent container
+
+    // Set the parent container's height to prevent vertical growth
+    parentContainer.style.height = `${canvasHeight}px`;
+    parentContainer.style.overflow = "hidden"; // Hide overflow content
+  }, [points]);
+
   // Calculate linear regeression
   useEffect(() => {
     if (points.length < 2) return;
@@ -61,12 +81,12 @@ const Linear = () => {
     // Get a reference to the parent container (Material-UI Container)
     const parentContainer = canvasRef.current.parentElement;
 
-    if (parentContainer) {
-      canvasRef.current.width = parentContainer.clientWidth;
-      canvasRef.current.height = parentContainer.clientHeight;
-      canvasRef.current.style.width = "100%"; // Set width to 100% to match parent container
-      canvasRef.current.style.height = "100%"; // Set height to 100% to match parent container
-    }
+    // if (parentContainer) {
+    //   canvasRef.current.width = parentContainer.clientWidth;
+    //   canvasRef.current.height = parentContainer.clientHeight;
+    //   canvasRef.current.style.width = "100%"; // Set width to 100% to match parent container
+    //   canvasRef.current.style.height = "100%"; // Set height to 100% to match parent container
+    // }
 
     if (context) {
       // background rect draw

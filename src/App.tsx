@@ -1,5 +1,5 @@
 import React, { FC, useState } from "react";
-import { Container, useMediaQuery } from "@mui/material";
+import { Box, Container, useMediaQuery } from "@mui/material";
 
 import Ok2Delete from "./components/MuiAppBarResponsive";
 import Linear from "./components/LinearRegression";
@@ -46,17 +46,24 @@ const App: FC<IAppProps> = ({ appTitle }): JSX.Element => {
           ? "sm"
           : "xs"
       }
+      sx={{ height: "100vh", display: "flex", flexDirection: "column" }}
     >
-      <Ok2Delete selectedTab={selectedTab} onTabChange={handleTabChange} />
+      <Box sx={{ bgcolor: "secondary.main", height: "10vh" }}>
+        <Ok2Delete selectedTab={selectedTab} onTabChange={handleTabChange} />
+      </Box>
 
-      <React.Fragment>
-        {/* Render content components based on the selected tab */}
-        {selectedTab === "Linear Regression" ? <Linear /> : null}
-        {selectedTab === "Gradient Decent" ? <Gradient /> : null}
-        {selectedTab === "Canvas Component" ? <CanvasComponent /> : null}
-      </React.Fragment>
+      <Box sx={{ bgcolor: "secondary.main", height: "85vh" }}>
+        <React.Fragment>
+          {/* Render content components based on the selected tab */}
+          {selectedTab === "Linear Regression" ? <Linear /> : null}
+          {selectedTab === "Gradient Decent" ? <Gradient /> : null}
+          {selectedTab === "Canvas Component" ? <CanvasComponent /> : null}
+        </React.Fragment>
+      </Box>
 
-      <div className="version">React version: {React.version}</div>
+      <Box sx={{ bgcolor: "secondary.main", height: "5vh" }}>
+        <div className="version">React version: {React.version}</div>
+      </Box>
     </Container>
   );
 };
